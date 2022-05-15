@@ -1,7 +1,7 @@
 package Classification
 
 type Trainer struct {
-	WordMap map[string]Feature
+	WordMap map[string]FeatureData
 }
 
 func (tr *Trainer) CountWordSentFrom(TweetArr []Tweet) {

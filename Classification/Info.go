@@ -12,3 +12,10 @@ type ConfusionMatrix struct {
 func (cm ConfusionMatrix) Accuracy() float32 {
 	return float32(cm.TruePos+cm.TrueNeg) / float32(cm.TruePos+cm.TrueNeg+cm.FalsePos+cm.FalseNeg)
 }
+
+type FeatureData struct {
+	NegCount int
+	PosCount int
+	CM       ConfusionMatrix
+	Flag     bool
+}

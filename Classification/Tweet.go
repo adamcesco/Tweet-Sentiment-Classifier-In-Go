@@ -1,6 +1,8 @@
 package Classification
 
-import "strings"
+import (
+	"github.com/jdkato/prose/v2"
+)
 
 type Sentiment int8
 
@@ -11,27 +13,35 @@ const (
 )
 
 type Tweet struct {
-	Content []string
+	Content prose.Document
 	ID      string
 	Senti   Sentiment
 }
 
-func (tw *Tweet) ReadTestTweet(cells []string) {
+func NewTestTweet(cells []string) Tweet {
+	var tw Tweet
 	tw.Senti = Guess
 	tw.ID = cells[0]
-	tw.Content = strings.Split(cells[4], " ")
+	docCpy, err := prose.NewDocument(cells[4])
+	if err != nil {
+		panic(err)
+	}
+	tw.Content = *docCpy
+	return tw
 }
 
-func (tw *Tweet) ReadTrainTweet(cells []string) {
+func NewTrainTweet(cells []string) Tweet {
+	var tw Tweet
 	if cells[0] == "4" {
 		tw.Senti = Positive
 	} else {
 		tw.Senti = Negative
 	}
 	tw.ID = cells[1]
-	tw.Content = strings.Split(cells[5], " ")
-}
-
-func (tw *Tweet) Clean() {
-
+	docCpy, err := prose.NewDocument(cells[5])
+	if err != nil {
+		panic(err)
+	}
+	tw.Content = *docCpy
+	return tw
 }
