@@ -39,6 +39,6 @@ func IsStopWord(text string) bool {
 	return conatins
 }
 
-func stem(text string) string {
+func Stem(text string) string {
 	return porterstemmer.StemString(text)
 }

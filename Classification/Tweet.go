@@ -1,7 +1,9 @@
 package Classification
 
 import (
+	"TSC.go/Utilities"
 	"github.com/jdkato/prose/v2"
+	"strings"
 )
 
 type Sentiment int8
@@ -13,9 +15,11 @@ const (
 )
 
 type Tweet struct {
-	Content prose.Document
-	ID      string
-	Senti   Sentiment
+	OriginalContent prose.Document
+	Tokens          []prose.Token
+	Entities        []prose.Entity
+	ID              string
+	Senti           Sentiment
 }
 
 func NewTestTweet(cells []string) Tweet {
@@ -26,7 +30,9 @@ func NewTestTweet(cells []string) Tweet {
 	if err != nil {
 		panic(err)
 	}
-	tw.Content = *docCpy
+	tw.OriginalContent = *docCpy
+	tw.Tokens = docCpy.Tokens()
+	tw.Entities = docCpy.Entities()
 	return tw
 }
 
@@ -42,6 +48,24 @@ func NewTrainTweet(cells []string) Tweet {
 	if err != nil {
 		panic(err)
 	}
-	tw.Content = *docCpy
+	tw.OriginalContent = *docCpy
+	tw.Tokens = docCpy.Tokens()
+	tw.Entities = docCpy.Entities()
 	return tw
+}
+
+func (tw *Tweet) Clean() {
+	stopWordsMap := Utilities.StopWords()
+	index := 0
+	cleanTokens := make([]prose.Token, len(tw.Tokens))
+	for _, tok := range tw.Tokens {
+		tok.Text = strings.ToLower(tok.Text)
+		_, isSW := stopWordsMap[tok.Text]
+		if !isSW && !Utilities.IsUrl(tok.Text) && !Utilities.IsUsername(tok.Text) {
+			tok.Text = Utilities.Stem(tok.Text)
+			cleanTokens[index] = tok
+			index++
+		}
+	}
+	tw.Tokens = cleanTokens
 }
