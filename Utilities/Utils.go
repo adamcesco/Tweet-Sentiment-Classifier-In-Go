@@ -2,6 +2,7 @@ package Utilities
 
 import (
 	"encoding/csv"
+	"github.com/reiver/go-porterstemmer"
 	"os"
 	"strings"
 )
@@ -26,9 +27,18 @@ func IsUrl(text string) bool {
 }
 
 func IsUsername(text string) bool {
-	return strings.Contains(text, "@")
+	return text[0] == '@'
 }
 
 func IsHashtag(text string) bool {
-	return strings.Contains(text, "#")
+	return text[0] == '#'
+}
+
+func IsStopWord(text string) bool {
+	_, conatins := StopWords()[text]
+	return conatins
+}
+
+func stem(text string) string {
+	return porterstemmer.StemString(text)
 }
