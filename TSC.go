@@ -10,24 +10,16 @@ func main() {
 	tweet := Classification.NewTrainTweet(strings.Split("4,2014351367,Wed Jun 03 01:14:33 PDT 2009,NO_QUERY,cathyleehart,@just_tam21 hahah its kind of the same as adelaides except a bit bigger http://example.com", ","))
 	for _, tok := range tweet.OriginalContent.Tokens() {
 		fmt.Println(tok.Text, tok.Tag, tok.Label)
-		// Go NNP B-GPE
-		// is VBZ O
-		// an DT O
-		// ...
 	}
+	fmt.Println("==========================")
 
-	// Iterate over the doc's named-entities:
-	fmt.Println("========================================")
-	for _, ent := range tweet.OriginalContent.Entities() {
-		fmt.Println(ent.Text, ent.Label)
-		// Go GPE
-		// Google GPE
+	for _, tok := range tweet.Tokens {
+		fmt.Println(tok.Text, tok.Tag, tok.Label)
 	}
+	fmt.Println("==========================")
 
-	// Iterate over the doc's sentences:
-	fmt.Println("========================================")
-	for _, sent := range tweet.OriginalContent.Sentences() {
-		fmt.Println(sent.Text)
-		// Go is an open-source programming language created at Google.
+	tweet.Clean()
+	for _, tok := range tweet.Tokens {
+		fmt.Println(tok.Text, tok.Tag, tok.Label)
 	}
 }
