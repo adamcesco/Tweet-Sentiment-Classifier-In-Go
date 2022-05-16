@@ -5,7 +5,7 @@ type Classifier struct {
 	Tweets       []Tweet
 }
 
-func (cl *Classifier) classify() {
+func (cl *Classifier) Classify() {
 	for i, tweet := range cl.Tweets {
 		grade := float32(0.0)
 		empty := true

@@ -7,19 +7,18 @@ import (
 	"strings"
 )
 
-func ReadCSVFile(filePath string) ([]string, error) {
+func ReadCSVFile(filePath string) ([][]string, error) {
 	fileContent, err := os.Open(filePath)
 	if err != nil {
-		return []string{}, err
+		return [][]string{}, err
 	}
 	defer fileContent.Close()
 
-	lines, err := csv.NewReader(fileContent).Read()
+	lines, err := csv.NewReader(fileContent).ReadAll()
 	if err != nil {
-		return []string{}, err
+		return [][]string{}, err
 	}
 	return lines, nil
-
 }
 
 func IsUrl(text string) bool {
